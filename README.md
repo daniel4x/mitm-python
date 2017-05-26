@@ -2,6 +2,8 @@
 
 A keep it simple project demonstrate how to perform a man in the middle attack with python + scapy.
 
+![alt text]( docs/Man_in_the_Middle.jpg "mitm attack jpg")
+
 ## Requirements:
 
 - Python version 2.7.13 (recommended), or above ...
