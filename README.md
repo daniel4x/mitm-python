@@ -16,6 +16,11 @@ If you are using git source then compile and run with `./configure && make` and 
 
 ## Running:
 
+`python app.py -h` - show help<br/>
+`python app.py target_ip router_ip interface` - run the attack <br/>
+Example:<br/>
+`python app.py 192.168.1.39 192.168.1.1 en0` - en0 is the default interface for OS X.
+
 Remember:exclamation: the script only using arp poisoning in order to "steal" the session between your target and some access point.
 You may want to use Wireshark to inspect the target traffic or different tools for getting passwords or forging cookies for stealing sessions.
 
