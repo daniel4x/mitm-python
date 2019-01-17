@@ -10,8 +10,7 @@ import platform
 
 def port_forwarding(flag=1):
     """
-    May require running the attack as a sudo-er
-    determine first which os we us (osx or linux)
+    require security privilege (sudoer)
     :arg flag: 1 - enable port forwarding
                0 - disable port forwarding
     """
